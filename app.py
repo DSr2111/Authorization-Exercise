@@ -81,3 +81,15 @@ def logout():
     session.pop("username")
     return redirect("/login")
 
+
+@app.route("/users/<username>")
+def show_user(username):
+    """Example page for logged-in-users."""
+
+    if "username" not in session or username != session['username']:
+        raise Unauthorized()
+
+    user = User.query.get(username)
+    form = DeleteForm()
+
+    return render_template("users/show.html", user=user, form=form)
