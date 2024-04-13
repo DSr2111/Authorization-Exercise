@@ -17,3 +17,8 @@ toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 
+@app.route("/")
+def homepage():
+    """Homepage of site; redirect to register."""
+
+    return redirect("/register")
