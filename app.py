@@ -107,3 +107,31 @@ def remove_user(username):
     session.pop("username")
 
     return redirect("/login")
+
+
+@app.route("/users/<username>/feedback/new", methods=["GET", "POST"])
+def new_feedback(username):
+    """Show add-feedback form and process it."""
+
+    if "username" not in session or username != session['username']:
+        raise Unauthorized()
+
+    form = FeedbackForm()
+
+    if form.validate_on_submit():
+        title = form.title.data
+        content = form.content.data
+
+        feedback = Feedback(
+            title=title,
+            content=content,
+            username=username,
+        )
+
+        db.session.add(feedback)
+        db.session.commit()
+
+        return redirect(f"/users/{feedback.username}")
+
+    else:
+        return render_template("feedback/new.html", form=form)
