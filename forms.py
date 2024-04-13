@@ -37,3 +37,15 @@ class RegisterForm(FlaskForm):
         "Last Name",
         validators=[InputRequired(), Length(max=30)],
     )
+
+class FeedbackForm(FlaskForm):
+    """Add feedback form."""
+
+    title = StringField(
+        "Title",
+        validators=[InputRequired(), Length(max=100)],
+    )
+    content = StringField(
+        "Content",
+        validators=[InputRequired()],
+    )
